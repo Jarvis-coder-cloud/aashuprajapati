@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aashu Prajapati — AI Builder & Founder</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #f5f5f7;
+      --surface: #ffffff;
+      --text: #1d1d1f;
+      --text-2: #6e6e73;
+      --text-3: #aeaeb2;
+      --accent: #0071e3;
+      --border: rgba(0,0,0,0.08);
+      --radius: 18px;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(245,245,247,0.85);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 0.5px solid var(--border);
+      padding: 0 2rem;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-size: 17px;
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: -0.3px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      font-size: 13px;
+      color: var(--text-2);
+      text-decoration: none;
+      transition: color 0.2s;
+      letter-spacing: 0.1px;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    /* HERO */
+    .hero {
+      padding: 120px 2rem 80px;
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 4rem;
+      text-align: left;
+      animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) both;
+    }
+
+    .hero-content {
+      flex: 1;
+    }
+
+    .hero-eyebrow {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--accent);
+      letter-spacing: 0.5px;
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(48px, 6vw, 72px);
+      font-weight: 400;
+      line-height: 1.05;
+      letter-spacing: -2px;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-sub {
+      font-size: 19px;
+      font-weight: 300;
+      color: var(--text-2);
+      max-width: 560px;
+      margin: 0 0 3rem 0;
+      line-height: 1.6;
+      letter-spacing: -0.2px;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 13px 28px;
+      border-radius: 980px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+      letter-spacing: -0.2px;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-fill {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-fill:hover {
+      background: #0077ed;
+      transform: scale(1.02);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid rgba(0,113,227,0.3);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(0,113,227,0.06);
+      transform: scale(1.02);
+    }
+
+    /* HERO IMAGE */
+    .hero-image-wrap {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      position: relative;
+    }
+
+    .hero-image-wrap img {
+      width: 100%;
+      max-width: 400px;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      object-position: top;
+      border-radius: 32px;
+      animation: float 6s ease-in-out infinite;
+      box-shadow: 0 24px 48px rgba(0,0,0,0.1);
+      border: 0.5px solid var(--border);
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+      100% { transform: translateY(0px); }
+    }
+
+    /* TRAITS */
+    .traits-section {
+      max-width: 980px;
+      margin: 0 auto 6rem;
+      padding: 0 2rem;
+      animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) 0.15s both;
+    }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-bottom: 2rem;
+    }
+
+    .traits-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 0.5px solid var(--border);
+    }
+
+    .trait {
+      background: var(--surface);
+      padding: 2rem;
+      transition: background 0.2s;
+    }
+
+    .trait:hover { 
+      background: #fafafa; 
+      transform: translateY(-8px);
+      box-shadow: 0 16px 32px rgba(0,0,0,0.06);
+      z-index: 1;
+      position: relative;
+    }
+
+    .trait-icon {
+      font-size: 24px;
+      margin-bottom: 1rem;
+    }
+
+    .trait h3 {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.2px;
+    }
+
+    .trait p {
+      font-size: 13px;
+      color: var(--text-2);
+      line-height: 1.5;
+      font-weight: 300;
+    }
+
+    /* PROJECTS */
+    .projects-section {
+      max-width: 980px;
+      margin: 0 auto 6rem;
+      padding: 0 2rem;
+      animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) 0.2s both;
+    }
+
+    .projects-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      background: var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 0.5px solid var(--border);
+    }
+
+    .project-row {
+      background: var(--surface);
+      padding: 2rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      transition: background 0.2s;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .project-row:hover { 
+      background: #ffffff; 
+      transform: scale(1.02) translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+      border-color: rgba(0,113,227,0.3);
+      z-index: 10;
+      position: relative;
+    }
+
+    .project-left {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex: 1;
+    }
+
+    .project-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--bg);
+      border: 0.5px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .project-info h3 {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: -0.3px;
+      margin-bottom: 3px;
+    }
+
+    .project-info p {
+      font-size: 13px;
+      color: var(--text-2);
+      font-weight: 300;
+    }
+
+    .project-right {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .badge {
+      font-size: 11px;
+      font-weight: 500;
+      padding: 4px 12px;
+      border-radius: 980px;
+      letter-spacing: 0.3px;
+    }
+
+    .badge-live {
+      background: rgba(52,199,89,0.12);
+      color: #1a7f37;
+    }
+
+    .badge-mvp {
+      background: rgba(0,113,227,0.1);
+      color: var(--accent);
+    }
+
+    .badge-wip {
+      background: rgba(255,149,0,0.1);
+      color: #b85c00;
+    }
+
+    .arrow-link {
+      color: var(--accent);
+      font-size: 18px;
+      text-decoration: none;
+      transition: transform 0.2s;
+      display: inline-block;
+    }
+
+    .project-row:hover .arrow-link { transform: translateX(4px); }
+
+    /* CONTACT */
+    .contact-section {
+      max-width: 980px;
+      margin: 0 auto 8rem;
+      padding: 0 2rem;
+      animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) 0.25s both;
+    }
+
+    .contact-card {
+      background: var(--text);
+      border-radius: var(--radius);
+      padding: 4rem 3rem;
+      text-align: center;
+      color: #fff;
+    }
+
+    .contact-card h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 40px;
+      font-weight: 400;
+      letter-spacing: -1px;
+      margin-bottom: 1rem;
+    }
+
+    .contact-card p {
+      font-size: 17px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 2.5rem;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .contact-links a {
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: 0.2px;
+      transition: color 0.2s;
+    }
+
+    .contact-links a:hover { color: #fff; }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 12px;
+      color: var(--text-3);
+      border-top: 0.5px solid var(--border);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ADVANCED ANIMATIONS */
+    .bg-glow {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(0,113,227,0.12) 0%, rgba(245,245,247,0) 70%);
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: -1;
+      animation: pulseGlow 8s ease-in-out infinite alternate;
+    }
+    @keyframes pulseGlow {
+      0% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+      100% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Staggered Traits Delay */
+    .trait:nth-child(1) { transition-delay: 0.1s; }
+    .trait:nth-child(2) { transition-delay: 0.2s; }
+    .trait:nth-child(3) { transition-delay: 0.3s; }
+    .trait:nth-child(4) { transition-delay: 0.1s; }
+    .trait:nth-child(5) { transition-delay: 0.2s; }
+    .trait:nth-child(6) { transition-delay: 0.3s; }
+
+    @media (max-width: 850px) {
+      .hero { flex-direction: column; text-align: center; gap: 3rem; padding-top: 80px; }
+      .hero-cta { justify-content: center; }
+      .hero-sub { margin: 0 auto 3rem; }
+    }
+
+    @media (max-width: 640px) {
+      .traits-grid { grid-template-columns: 1fr 1fr; }
+      .project-row { flex-direction: column; align-items: flex-start; }
+      .hero h1 { letter-spacing: -1px; }
+      nav { padding: 0 1rem; }
+      .nav-links { gap: 1.2rem; }
+      .contact-card { padding: 2.5rem 1.5rem; }
+      .contact-card h2 { font-size: 28px; }
+    }
+
+    @media (max-width: 420px) {
+      .traits-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<nav>
+  <span class="nav-logo">Aashu Prajapati</span>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<section class="hero" id="top">
+  <div class="hero-content">
+    <p class="hero-eyebrow">Entrepreneur · AI Builder · Founder</p>
+    <h1>Building things<br><em>worth remembering.</em></h1>
+    <p class="hero-sub">From custom programming languages to web browsers to LLM improvement engines — I build the tools that builders use.</p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-fill">View My Work</a>
+      <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+    </div>
+  </div>
+  <div class="hero-image-wrap">
+    <img src="profile.png" alt="Aashu Prajapati">
+  </div>
+</section>
+
+<section class="traits-section" id="about">
+  <p class="section-label reveal">About</p>
+  <div class="traits-grid">
+    <div class="trait reveal">
+      <div class="trait-icon">⚡</div>
+      <h3>Execution-Focused</h3>
+      <p>No fluff, just results. Challenges, experiments, growth — this is the fuel.</p>
+    </div>
+    <div class="trait reveal">
+      <div class="trait-icon">🤖</div>
+      <h3>AI Product Builder</h3>
+      <p>Not chatbots — autonomous operator systems. Powered by OpenAI, Supabase, Lovable.</p>
+    </div>
+    <div class="trait reveal">
+      <div class="trait-icon">🎨</div>
+      <h3>Creative + Technical</h3>
+      <p>UI/UX, cinematic visuals, GANs, model optimization — both sides of the brain.</p>
+    </div>
+    <div class="trait reveal">
+      <div class="trait-icon">🎮</div>
+      <h3>Game Dev Mindset</h3>
+      <p>Story, gameplay, cinematics — thinking in experiences, not just features.</p>
+    </div>
+    <div class="trait reveal">
+      <div class="trait-icon">📱</div>
+      <h3>Content Creator</h3>
+      <p>Attention psychology, hooks, CTR, viral mechanics — naturally in the thinking.</p>
+    </div>
+    <div class="trait reveal">
+      <div class="trait-icon">✨</div>
+      <h3>Anime-Inspired</h3>
+      <p>Naruto, AoT, Demon Slayer. Cinematic energy applied to every project.</p>
+    </div>
+  </div>
+</section>
+
+<section class="projects-section" id="projects">
+  <p class="section-label">Projects</p>
+  <div class="projects-list">
+
+    <a class="project-row reveal" href="https://github.com/Jarvis-coder-cloud/neurobrowser">
+      <div class="project-left">
+        <div class="project-icon">🌐</div>
+        <div class="project-info">
+          <h3>NeuroBrowser</h3>
+          <p>Custom desktop web browser built from first principles</p>
+        </div>
+      </div>
+      <div class="project-right">
+        <span class="badge badge-live">Live</span>
+        <span class="arrow-link">→</span>
+      </div>
+    </a>
+
+    <a class="project-row reveal" href="https://github.com/Jarvis-coder-cloud/hplusplus">
+      <div class="project-left">
+        <div class="project-icon">💻</div>
+        <div class="project-info">
+          <h3>H++ Language</h3>
+          <p>Hinglish programming language — lexer, parser, interpreter, VS Code extension</p>
+        </div>
+      </div>
+      <div class="project-right">
+        <span class="badge badge-live">PyPI Live</span>
+        <span class="arrow-link">→</span>
+      </div>
+    </a>
+
+    <a class="project-row reveal" href="https://github.com/Jarvis-coder-cloud/evolvr">
+      <div class="project-left">
+        <div class="project-icon">⚡</div>
+        <div class="project-info">
+          <h3>Evolvr</h3>
+          <p>Continuous improvement engine for LLMs — eval, synthesize, fine-tune, verify</p>
+        </div>
+      </div>
+      <div class="project-right">
+        <span class="badge badge-mvp">MVP</span>
+        <span class="arrow-link">→</span>
+      </div>
+    </a>
+
+    <a class="project-row reveal" href="#">
+      <div class="project-left">
+        <div class="project-icon">🤖</div>
+        <div class="project-info">
+          <h3>F.R.I.D.A.Y</h3>
+          <p>Personal AI operating system — Iron Man inspired autonomous assistant</p>
+        </div>
+      </div>
+      <div class="project-right">
+        <span class="badge badge-wip">Building</span>
+        <span class="arrow-link">→</span>
+      </div>
+    </a>
+
+    <a class="project-row reveal" href="#">
+      <div class="project-left">
+        <div class="project-icon">🔍</div>
+        <div class="project-info">
+          <h3>LoopBack</h3>
+          <p>AI code feedback tool — captures errors, rage clicks, tells you what to fix</p>
+        </div>
+      </div>
+      <div class="project-right">
+        <span class="badge badge-live">Live</span>
+        <span class="arrow-link">→</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<section class="contact-section" id="contact">
+  <div class="contact-card reveal">
+    <h2>Let's build something legendary.</h2>
+    <p>Have an idea? Want to collaborate? Let's talk.</p>
+    <div class="contact-links">
+      <a href="https://github.com/Jarvis-coder-cloud/">GitHub</a>
+      <a href="https://www.instagram.com/aashu_prajapati1/">Instagram</a>
+      <a href="https://www.linkedin.com/in/aashu-prajapati-/">LinkedIn</a>
+      <a href="mailto:aashuprajapati537@gmail.com">Email</a>
+    </div>
+  </div>
+</section>
+
+<footer>© 2026 Aashu Prajapati</footer>
+
+<script>
+  // Advanced Scroll Reveal Animation
+  const revealElements = document.querySelectorAll('.reveal');
+  const revealCallback = (entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('active');
+        // Uncomment next line to only animate once
+        // observer.unobserve(entry.target); 
+      }
+    });
+  };
+  const revealOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
+  const revealObserver = new IntersectionObserver(revealCallback, revealOptions);
+  revealElements.forEach(el => revealObserver.observe(el));
+</script>
+</body>
+</html>
