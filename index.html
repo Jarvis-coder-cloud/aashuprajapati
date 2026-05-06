@@ -10,6 +10,24 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
+    /* SCROLL PROGRESS BAR */
+    #scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      background: linear-gradient(90deg, #0071e3, #34c759, #0071e3);
+      background-size: 200% 100%;
+      z-index: 9999;
+      transition: width 0.05s linear;
+      animation: progressShimmer 2s linear infinite;
+    }
+    @keyframes progressShimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
     :root {
       --bg: #f5f5f7;
       --surface: #ffffff;
@@ -163,6 +181,7 @@
       display: flex;
       justify-content: center;
       position: relative;
+      perspective: 1000px;
     }
 
     .hero-image-wrap img {
@@ -172,15 +191,35 @@
       object-fit: cover;
       object-position: top;
       border-radius: 32px;
-      animation: float 6s ease-in-out infinite;
-      box-shadow: 0 24px 48px rgba(0,0,0,0.1);
+      box-shadow: 0 24px 48px rgba(0,0,0,0.15);
       border: 0.5px solid var(--border);
+      transform-style: preserve-3d;
+      transition: transform 0.1s ease-out, box-shadow 0.1s ease-out;
+      will-change: transform;
     }
-
+    .hero-image-wrap:not(:hover) img {
+      animation: float 6s ease-in-out infinite;
+    }
     @keyframes float {
       0% { transform: translateY(0px); }
-      50% { transform: translateY(-20px); }
+      50% { transform: translateY(-16px); }
       100% { transform: translateY(0px); }
+    }
+
+    /* TYPEWRITER CURSOR */
+    .typewriter-cursor {
+      display: inline-block;
+      width: 3px;
+      height: 0.85em;
+      background: var(--accent);
+      margin-left: 4px;
+      vertical-align: middle;
+      border-radius: 2px;
+      animation: blink 0.9s step-end infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
     }
 
     /* TRAITS */
@@ -488,18 +527,20 @@
   </div>
 </nav>
 
+<div id="scroll-progress"></div>
+
 <section class="hero" id="top">
   <div class="hero-content">
     <p class="hero-eyebrow">Entrepreneur · AI Builder · Founder</p>
-    <h1>Building things<br><em>worth remembering.</em></h1>
+    <h1><span id="typewriter-text"></span><span class="typewriter-cursor"></span></h1>
     <p class="hero-sub">From custom programming languages to web browsers to LLM improvement engines — I build the tools that builders use.</p>
     <div class="hero-cta">
       <a href="#projects" class="btn btn-fill">View My Work</a>
       <a href="#contact" class="btn btn-ghost">Get in Touch</a>
     </div>
   </div>
-  <div class="hero-image-wrap">
-    <img src="profile.png" alt="Aashu Prajapati">
+  <div class="hero-image-wrap" id="tilt-wrap">
+    <img src="profile.png" alt="Aashu Prajapati" id="tilt-img">
   </div>
 </section>
 
@@ -632,19 +673,80 @@
 <footer>© 2026 Aashu Prajapati</footer>
 
 <script>
-  // Advanced Scroll Reveal Animation
-  const revealElements = document.querySelectorAll('.reveal');
-  const revealCallback = (entries, observer) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('active');
-        // Uncomment next line to only animate once
-        // observer.unobserve(entry.target); 
+  // 1. SCROLL PROGRESS BAR
+  const progressBar = document.getElementById('scroll-progress');
+  window.addEventListener('scroll', () => {
+    const scrollTop = document.documentElement.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    progressBar.style.width = (scrollTop / scrollHeight * 100) + '%';
+  });
+
+  // 2. TYPEWRITER EFFECT
+  const lines = ['Building things\nworth remembering.', 'Building AI that\nactually works.', 'Building tools\nbuilders use.'];
+  let lineIndex = 0, charIndex = 0, deleting = false;
+  const typeEl = document.getElementById('typewriter-text');
+
+  function formatLine(text) {
+    const parts = text.split('\n');
+    if (parts.length === 1) return parts[0];
+    return parts[0] + '<br><em>' + parts[1] + '</em>';
+  }
+
+  function typeWriter() {
+    const currentLine = lines[lineIndex];
+    const plainText = currentLine.replace('\n', ' ');
+    if (!deleting) {
+      charIndex++;
+      const displayed = currentLine.substring(0, charIndex);
+      const parts = displayed.split('\n');
+      typeEl.innerHTML = parts.length > 1 ? parts[0] + '<br><em>' + parts[1] + '</em>' : parts[0];
+      if (charIndex === currentLine.length) {
+        setTimeout(() => { deleting = true; typeWriter(); }, 2400);
+        return;
       }
+    } else {
+      charIndex--;
+      const displayed = currentLine.substring(0, charIndex);
+      const parts = displayed.split('\n');
+      typeEl.innerHTML = parts.length > 1 ? parts[0] + '<br><em>' + parts[1] + '</em>' : parts[0];
+      if (charIndex === 0) {
+        deleting = false;
+        lineIndex = (lineIndex + 1) % lines.length;
+      }
+    }
+    setTimeout(typeWriter, deleting ? 40 : 70);
+  }
+  setTimeout(typeWriter, 600);
+
+  // 3. 3D TILT EFFECT ON PHOTO
+  const tiltWrap = document.getElementById('tilt-wrap');
+  const tiltImg = document.getElementById('tilt-img');
+  if (tiltWrap && tiltImg) {
+    tiltWrap.addEventListener('mousemove', (e) => {
+      const rect = tiltWrap.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotateX = ((y - centerY) / centerY) * -14;
+      const rotateY = ((x - centerX) / centerX) * 14;
+      tiltImg.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.04)`;
+      tiltImg.style.boxShadow = `${-rotateY}px ${rotateX}px 40px rgba(0,113,227,0.18)`;
+    });
+    tiltWrap.addEventListener('mouseleave', () => {
+      tiltImg.style.transform = '';
+      tiltImg.style.boxShadow = '';
+    });
+  }
+
+  // 4. SCROLL REVEAL
+  const revealElements = document.querySelectorAll('.reveal');
+  const revealCallback = (entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('active');
     });
   };
-  const revealOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
-  const revealObserver = new IntersectionObserver(revealCallback, revealOptions);
+  const revealObserver = new IntersectionObserver(revealCallback, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
   revealElements.forEach(el => revealObserver.observe(el));
 </script>
 </body>
