@@ -29,37 +29,28 @@
     }
 
     :root {
-      --bg: #030303;
-      --surface: #0a0a0a;
-      --text: #ffffff;
-      --text-2: #a1a1aa;
-      --text-3: #52525b;
-      --accent: #3b82f6;
-      --border: rgba(255,255,255,0.08);
+      --bg: #f5f5f7;
+      --surface: #ffffff;
+      --text: #1d1d1f;
+      --text-2: #6e6e73;
+      --text-3: #aeaeb2;
+      --accent: #0071e3;
+      --border: rgba(0,0,0,0.08);
       --radius: 18px;
     }
 
     body {
       font-family: 'DM Sans', sans-serif;
-      background-color: var(--bg);
-      background-image: 
-        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-      background-size: 32px 32px;
+      background: var(--bg);
       color: var(--text);
       -webkit-font-smoothing: antialiased;
-    }
-
-    ::selection {
-      background: rgba(59, 130, 246, 0.3);
-      color: #fff;
     }
 
     nav {
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(3, 3, 3, 0.7);
+      background: rgba(245,245,247,0.85);
       backdrop-filter: saturate(180%) blur(20px);
       -webkit-backdrop-filter: saturate(180%) blur(20px);
       border-bottom: 0.5px solid var(--border);
@@ -125,13 +116,11 @@
       letter-spacing: -2px;
       color: var(--text);
       margin-bottom: 1.5rem;
-      text-shadow: 0 0 40px rgba(255,255,255,0.15);
     }
 
     .hero h1 em {
       font-style: italic;
       color: var(--accent);
-      text-shadow: 0 0 30px rgba(59, 130, 246, 0.4);
     }
 
     .hero-sub {
@@ -267,10 +256,9 @@
     }
 
     .trait:hover { 
-      background: #111; 
+      background: #fafafa; 
       transform: translateY(-8px);
-      box-shadow: 0 16px 32px rgba(0,0,0,0.5);
-      border-color: rgba(255,255,255,0.15);
+      box-shadow: 0 16px 32px rgba(0,0,0,0.06);
       z-index: 1;
       position: relative;
     }
@@ -326,10 +314,10 @@
     }
 
     .project-row:hover { 
-      background: #111; 
+      background: #ffffff; 
       transform: scale(1.02) translateY(-4px);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-      border-color: rgba(59,130,246,0.3);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+      border-color: rgba(0,113,227,0.3);
       z-index: 10;
       position: relative;
     }
@@ -344,13 +332,13 @@
     .project-icon {
       width: 48px;
       height: 48px;
-      background: rgba(255,255,255,0.05);
       border-radius: 12px;
+      background: var(--bg);
+      border: 0.5px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 24px;
-      border: 1px solid rgba(255,255,255,0.1);
+      font-size: 22px;
       flex-shrink: 0;
     }
 
@@ -377,26 +365,25 @@
 
     .badge {
       font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      padding: 4px 10px;
+      font-weight: 500;
+      padding: 4px 12px;
       border-radius: 980px;
+      letter-spacing: 0.3px;
     }
-    .badge-live { 
-      background: rgba(52, 199, 89, 0.15); 
-      color: #34c759; 
-      border: 1px solid rgba(52, 199, 89, 0.3);
+
+    .badge-live {
+      background: rgba(52,199,89,0.12);
+      color: #1a7f37;
     }
-    .badge-mvp { 
-      background: rgba(255, 149, 0, 0.15); 
-      color: #ff9500; 
-      border: 1px solid rgba(255, 149, 0, 0.3);
+
+    .badge-mvp {
+      background: rgba(0,113,227,0.1);
+      color: var(--accent);
     }
-    .badge-wip { 
-      background: rgba(59, 130, 246, 0.15); 
-      color: #3b82f6; 
-      border: 1px solid rgba(59, 130, 246, 0.3);
+
+    .badge-wip {
+      background: rgba(255,149,0,0.1);
+      color: #b85c00;
     }
 
     .arrow-link {
@@ -418,12 +405,11 @@
     }
 
     .contact-card {
-      background: #0a0a0a;
-      border: 1px solid rgba(255,255,255,0.1);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-      border-radius: 24px;
+      background: var(--text);
+      border-radius: var(--radius);
       padding: 4rem 3rem;
       text-align: center;
+      color: #fff;
     }
 
     .contact-card h2 {
@@ -477,9 +463,9 @@
       position: fixed;
       top: 50%;
       left: 50%;
-      width: 100vw;
-      height: 100vh;
-      background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 60%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(0,113,227,0.12) 0%, rgba(245,245,247,0) 70%);
       transform: translate(-50%, -50%);
       pointer-events: none;
       z-index: -1;
