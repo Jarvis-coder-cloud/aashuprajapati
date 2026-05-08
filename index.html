@@ -36,19 +36,21 @@
     }
 
     :root {
-      --bg: #f5f5f7;
-      --surface: #ffffff;
-      --text: #1d1d1f;
-      --text-2: #6e6e73;
-      --text-3: #aeaeb2;
+      --bg: #000000;
+      --surface: #0a0a0a;
+      --text: #ffffff;
+      --text-2: #86868b;
+      --text-3: #424245;
       --accent: #0071e3;
-      --border: rgba(0,0,0,0.08);
-      --radius: 18px;
+      --border: rgba(255,255,255,0.1);
+      --radius: 20px;
     }
 
     body {
       font-family: 'DM Sans', sans-serif;
       background: var(--bg);
+      background-image: radial-gradient(circle at 50% -20%, #1a1a1a 0%, #000000 100%);
+      background-attachment: fixed;
       color: var(--text);
       -webkit-font-smoothing: antialiased;
     }
@@ -57,7 +59,7 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(245,245,247,0.85);
+      background: rgba(0,0,0,0.7);
       backdrop-filter: saturate(180%) blur(20px);
       -webkit-backdrop-filter: saturate(180%) blur(20px);
       border-bottom: 0.5px solid var(--border);
@@ -263,9 +265,9 @@
     }
 
     .trait:hover { 
-      background: #fafafa; 
+      background: rgba(255,255,255,0.05); 
       transform: translateY(-8px);
-      box-shadow: 0 16px 32px rgba(0,0,0,0.06);
+      box-shadow: 0 16px 32px rgba(0,0,0,0.4);
       z-index: 1;
       position: relative;
     }
@@ -547,7 +549,8 @@
     }
     /* STAT BAR */
     .ai-stat-bar {
-      background: var(--text);
+      background: #050505;
+      border: 1px solid var(--border);
       border-radius: 14px;
       padding: 2rem 2.5rem;
       display: grid;
@@ -596,9 +599,9 @@
       cursor: default;
     }
     .tool-card:hover {
-      background: #fafafa;
+      background: rgba(255,255,255,0.05);
       transform: translateY(-6px);
-      box-shadow: 0 14px 28px rgba(0,0,0,0.07);
+      box-shadow: 0 14px 28px rgba(0,0,0,0.4);
       z-index: 1;
       position: relative;
     }
@@ -743,10 +746,109 @@
       font-weight: 500;
       color: #e8e8ed;
     }
-    @media (max-width: 640px) {
-      .friday-card { padding: 2rem 1.5rem; }
-      .friday-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
-      .friday-badge { position: relative; display: inline-block; top: auto; right: auto; margin-top: 1rem;}
+    /* SLIDER SYSTEM */
+    .slider-container {
+      position: relative;
+      width: 100%;
+      margin: 2rem 0;
+      overflow: hidden;
+    }
+    .slider-track {
+      display: flex;
+      gap: 1.5rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      padding: 1rem 0 3rem;
+      -webkit-overflow-scrolling: touch;
+    }
+    .slider-track::-webkit-scrollbar { display: none; }
+    
+    .project-card {
+      min-width: 320px;
+      max-width: 320px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      scroll-snap-align: center;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(circle at top right, rgba(0, 113, 227, 0.1), transparent 70%);
+      pointer-events: none;
+    }
+    .project-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 20px rgba(0, 113, 227, 0.2);
+    }
+    .card-icon { font-size: 32px; margin-bottom: 0.5rem; }
+    .card-info h3 { font-size: 20px; color: #fff; margin-bottom: 8px; }
+    .card-info p { font-size: 14px; color: var(--text-2); line-height: 1.5; }
+    .card-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 980px;
+      font-size: 11px;
+      color: var(--accent);
+      border: 1px solid rgba(0,113,227,0.3);
+      margin-top: auto;
+    }
+
+    .slider-nav {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      transform: translateY(-50%);
+      display: flex;
+      justify-content: space-between;
+      padding: 0 1rem;
+      pointer-events: none;
+      z-index: 10;
+    }
+    .nav-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      pointer-events: auto;
+      transition: all 0.2s;
+    }
+    .nav-btn:hover { background: var(--accent); transform: scale(1.1); }
+
+    /* TOOLS MARQUEE */
+    .tools-slider {
+      display: flex;
+      gap: 1.5rem;
+      animation: marquee 40s linear infinite;
+      padding: 1rem 0;
+    }
+    .tools-slider:hover { animation-play-state: paused; }
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(calc(-320px * 5 - 1.5rem * 5)); }
+    }
+    
+    @media (max-width: 768px) {
+      .project-card { min-width: 280px; padding: 1.5rem; }
     }
   </style>
 </head>
@@ -842,92 +944,68 @@
 
 <section class="projects-section" id="projects">
   <p class="section-label">Projects</p>
-  <div class="projects-list">
-
-    <a class="project-row reveal" href="https://github.com/Jarvis-coder-cloud/neurobrowser">
-      <div class="project-left">
-        <div class="project-icon">🌐</div>
-        <div class="project-info">
+  
+  <div class="slider-container reveal">
+    <div class="slider-nav">
+      <button class="nav-btn" onclick="slide('prev')">←</button>
+      <button class="nav-btn" onclick="slide('next')">→</button>
+    </div>
+    
+    <div class="slider-track" id="project-slider">
+      <a class="project-card" href="https://github.com/Jarvis-coder-cloud/neurobrowser">
+        <div class="card-icon">🌐</div>
+        <div class="card-info">
           <h3>NeuroBrowser</h3>
           <p>Custom desktop web browser built from first principles</p>
         </div>
-      </div>
-      <div class="project-right">
-        <span class="badge badge-live">Live</span>
-        <span class="arrow-link">→</span>
-      </div>
-    </a>
+        <span class="card-badge">Live</span>
+      </a>
 
-    <a class="project-row reveal" href="https://github.com/Jarvis-coder-cloud/hplusplus">
-      <div class="project-left">
-        <div class="project-icon">💻</div>
-        <div class="project-info">
+      <a class="project-card" href="https://github.com/Jarvis-coder-cloud/hplusplus">
+        <div class="card-icon">💻</div>
+        <div class="card-info">
           <h3>H++ Language</h3>
-          <p>Hinglish programming language — lexer, parser, interpreter, VS Code extension</p>
+          <p>Hinglish programming language — lexer, parser, interpreter</p>
         </div>
-      </div>
-      <div class="project-right">
-        <span class="badge badge-live">PyPI Live</span>
-        <span class="arrow-link">→</span>
-      </div>
-    </a>
+        <span class="card-badge">PyPI Live</span>
+      </a>
 
-    <a class="project-row reveal" href="https://github.com/Jarvis-coder-cloud/evolvr">
-      <div class="project-left">
-        <div class="project-icon">⚡</div>
-        <div class="project-info">
+      <a class="project-card" href="https://github.com/Jarvis-coder-cloud/evolvr">
+        <div class="card-icon">⚡</div>
+        <div class="card-info">
           <h3>Evolvr</h3>
-          <p>Continuous improvement engine for LLMs — eval, synthesize, fine-tune, verify</p>
+          <p>Continuous improvement engine for LLMs — eval & fine-tune</p>
         </div>
-      </div>
-      <div class="project-right">
-        <span class="badge badge-mvp">MVP</span>
-        <span class="arrow-link">→</span>
-      </div>
-    </a>
+        <span class="card-badge">MVP</span>
+      </a>
 
-    <a class="project-row reveal" href="#friday-os">
-      <div class="project-left">
-        <div class="project-icon">🤖</div>
-        <div class="project-info">
+      <a class="project-card" href="#friday-os">
+        <div class="card-icon">🤖</div>
+        <div class="card-info">
           <h3>F.R.I.D.A.Y</h3>
-          <p>Personal AI operating system — Iron Man inspired autonomous assistant</p>
+          <p>Personal AI operating system — Iron Man inspired</p>
         </div>
-      </div>
-      <div class="project-right">
-        <span class="badge badge-wip">Building</span>
-        <span class="arrow-link">→</span>
-      </div>
-    </a>
+        <span class="card-badge">Building</span>
+      </a>
 
-    <a class="project-row reveal" href="#">
-      <div class="project-left">
-        <div class="project-icon">🔍</div>
-        <div class="project-info">
+      <a class="project-card" href="#">
+        <div class="card-icon">🔍</div>
+        <div class="card-info">
           <h3>LoopBack</h3>
-          <p>AI code feedback tool — captures errors, rage clicks, tells you what to fix</p>
+          <p>AI code feedback tool — captures errors & rage clicks</p>
         </div>
-      </div>
-      <div class="project-right">
-        <span class="badge badge-live">Live</span>
-        <span class="arrow-link">→</span>
-      </div>
-    </a>
+        <span class="card-badge">Live</span>
+      </a>
 
-    <a class="project-row reveal" href="https://sphereconnects.lovable.app/" target="_blank">
-      <div class="project-left">
-        <div class="project-icon">🌐</div>
-        <div class="project-info">
+      <a class="project-card" href="https://sphereconnects.lovable.app/" target="_blank">
+        <div class="card-icon">🌐</div>
+        <div class="card-info">
           <h3>SphereConnects</h3>
-          <p>Co-founder & founder networking app — connecting founders to the right people, fast</p>
+          <p>Co-founder & founder networking app — connecting founders</p>
         </div>
-      </div>
-      <div class="project-right">
-        <span class="badge badge-live">Live</span>
-        <span class="arrow-link">→</span>
-      </div>
-    </a>
-
+        <span class="card-badge">Live</span>
+      </a>
+    </div>
   </div>
 </section>
 
@@ -957,96 +1035,108 @@
     </div>
   </div>
 
-  <!-- TOOLS GRID -->
-  <div class="tools-grid">
-    <div class="tool-card reveal">
-      <div class="tool-logo" style="background:#10a37f;">
-        <img src="https://www.google.com/s2/favicons?domain=chat.openai.com&sz=128" alt="ChatGPT">
+  <!-- TOOLS MARQUEE -->
+  <div class="slider-container reveal" style="margin-top: 4rem;">
+    <div class="tools-slider">
+      <!-- Row 1 -->
+      <div class="tool-card">
+        <div class="tool-logo" style="background:#10a37f;"><img src="https://www.google.com/s2/favicons?domain=chat.openai.com&sz=128" alt="ChatGPT"></div>
+        <div class="tool-name">ChatGPT</div>
+        <div class="tool-desc">Ideation & logic</div>
       </div>
-      <div class="tool-name">ChatGPT</div>
-      <div class="tool-desc">Ideation &amp; logic</div>
-    </div>
-    <div class="tool-card reveal">
-      <div class="tool-logo" style="background:#c96442;">
-        <img src="https://www.google.com/s2/favicons?domain=claude.ai&sz=128" alt="Claude">
+      <div class="tool-card">
+        <div class="tool-logo" style="background:#c96442;"><img src="https://www.google.com/s2/favicons?domain=claude.ai&sz=128" alt="Claude"></div>
+        <div class="tool-name">Claude</div>
+        <div class="tool-desc">Architecture</div>
       </div>
-      <div class="tool-name">Claude</div>
-      <div class="tool-desc">Code &amp; architecture</div>
-    </div>
-    <div class="tool-card reveal">
-      <div class="tool-logo" style="background:#1a1a1a;">
-        <img src="https://www.google.com/s2/favicons?domain=cursor.com&sz=128" alt="Cursor">
+      <div class="tool-card">
+        <div class="tool-logo" style="background:#1a1a1a;"><img src="https://www.google.com/s2/favicons?domain=cursor.com&sz=128" alt="Cursor"></div>
+        <div class="tool-name">Cursor</div>
+        <div class="tool-desc">AI Coding</div>
       </div>
-      <div class="tool-name">Cursor</div>
-      <div class="tool-desc">AI code editor</div>
-    </div>
-    <div class="tool-card reveal">
-      <div class="tool-logo" style="background:#ef4444;">
-        <img src="https://www.google.com/s2/favicons?domain=lovable.dev&sz=128" alt="Lovable">
+      <div class="tool-card">
+        <div class="tool-logo" style="background:#ef4444;"><img src="https://www.google.com/s2/favicons?domain=lovable.dev&sz=128" alt="Lovable"></div>
+        <div class="tool-name">Lovable</div>
+        <div class="tool-desc">UI Generation</div>
       </div>
-      <div class="tool-name">Lovable</div>
-      <div class="tool-desc">UI generation</div>
-    </div>
-    <div class="tool-card reveal">
-      <div class="tool-logo" style="background:#1a1a1a;">
-        <img src="https://www.google.com/s2/favicons?domain=bolt.new&sz=128" alt="Bolt">
+      <div class="tool-card">
+        <div class="tool-logo" style="background:#1a1a1a;"><img src="https://www.google.com/s2/favicons?domain=bolt.new&sz=128" alt="Bolt"></div>
+        <div class="tool-name">Bolt</div>
+        <div class="tool-desc">Full-stack</div>
       </div>
-      <div class="tool-name">Bolt</div>
-      <div class="tool-desc">Full-stack builder</div>
-    </div>
-    <div class="tool-card reveal">
-      <div class="tool-logo" style="background:#000000;">v0</div>
-      <div class="tool-name">v0</div>
-      <div class="tool-desc">Component builder</div>
-    </div>
-    <div class="tool-card reveal">
-      <div class="tool-logo" style="background:linear-gradient(135deg,#4285f4,#9b59b6);">
-        <img src="https://www.google.com/s2/favicons?domain=gemini.google.com&sz=128" alt="Gemini">
+      <div class="tool-card">
+        <div class="tool-logo" style="background:#000000;">v0</div>
+        <div class="tool-name">v0</div>
+        <div class="tool-desc">Components</div>
       </div>
-      <div class="tool-name">Gemini</div>
-      <div class="tool-desc">Anti-gravity AI</div>
-    </div>
-    <div class="tool-card reveal">
-      <div class="tool-logo" style="background:#0078d4;">
-        <img src="https://www.google.com/s2/favicons?domain=code.visualstudio.com&sz=128" alt="VS Code">
+      <div class="tool-card">
+        <div class="tool-logo" style="background:#1a1a1a;"><img src="https://www.google.com/s2/favicons?domain=gemini.google.com&sz=128" alt="Gemini"></div>
+        <div class="tool-name">Gemini</div>
+        <div class="tool-desc">Advanced AI</div>
       </div>
-      <div class="tool-name">VS Code</div>
-      <div class="tool-desc">Primary editor</div>
-    </div>
-    <div class="tool-card reveal">
-      <div class="tool-logo" style="background:#1c1c1c;">
-        <img src="https://www.google.com/s2/favicons?domain=perplexity.ai&sz=128" alt="Perplexity">
+      <div class="tool-card">
+        <div class="tool-logo" style="background:#007acc;"><img src="https://www.google.com/s2/favicons?domain=code.visualstudio.com&sz=128" alt="VS Code"></div>
+        <div class="tool-name">VS Code</div>
+        <div class="tool-desc">Editor</div>
       </div>
-      <div class="tool-name">Perplexity</div>
-      <div class="tool-desc">AI research</div>
-    </div>
-    <div class="tool-card reveal">
-      <div class="tool-logo" style="background:#f26207;">
-        <img src="https://www.google.com/s2/favicons?domain=replit.com&sz=128" alt="Replit">
+      <div class="tool-card">
+        <div class="tool-logo" style="background:#22c55e;"><img src="https://www.google.com/s2/favicons?domain=perplexity.ai&sz=128" alt="Perplexity"></div>
+        <div class="tool-name">Perplexity</div>
+        <div class="tool-desc">Research</div>
       </div>
-      <div class="tool-name">Replit</div>
-      <div class="tool-desc">AI prototyping</div>
+      <div class="tool-card">
+        <div class="tool-logo" style="background:#1a1a1a;"><img src="https://www.google.com/s2/favicons?domain=midjourney.com&sz=128" alt="Midjourney"></div>
+        <div class="tool-name">Midjourney</div>
+        <div class="tool-desc">Visuals</div>
+      </div>
+      <!-- Duplicate for infinite effect -->
+      <div class="tool-card">
+        <div class="tool-logo" style="background:#10a37f;"><img src="https://www.google.com/s2/favicons?domain=chat.openai.com&sz=128" alt="ChatGPT"></div>
+        <div class="tool-name">ChatGPT</div>
+        <div class="tool-desc">Ideation & logic</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-logo" style="background:#c96442;"><img src="https://www.google.com/s2/favicons?domain=claude.ai&sz=128" alt="Claude"></div>
+        <div class="tool-name">Claude</div>
+        <div class="tool-desc">Architecture</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-logo" style="background:#1a1a1a;"><img src="https://www.google.com/s2/favicons?domain=cursor.com&sz=128" alt="Cursor"></div>
+        <div class="tool-name">Cursor</div>
+        <div class="tool-desc">AI Coding</div>
+      </div>
     </div>
   </div>
 </section>
 
 <section class="contact-section" id="contact">
-  <div class="contact-card reveal">
-    <h2>Let's build something legendary.</h2>
-    <p>Have an idea? Want to collaborate? Let's talk.</p>
+  <div class="contact-card reveal" style="background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%); border: 1px solid var(--border); box-shadow: 0 30px 60px rgba(0,0,0,0.5);">
+    <h2 style="font-family: 'DM Serif Display', serif; font-size: clamp(32px, 4vw, 48px); margin-bottom: 1rem;">Let's build something legendary.</h2>
+    <p style="color: var(--text-2); margin-bottom: 2.5rem;">Have an idea? Want to collaborate? Let's talk.</p>
     <div class="contact-links">
-      <a href="https://github.com/Jarvis-coder-cloud/">GitHub</a>
-      <a href="https://www.instagram.com/aashu_prajapati1/">Instagram</a>
-      <a href="https://www.linkedin.com/in/aashu-prajapati-/">LinkedIn</a>
-      <a href="mailto:aashuprajapati537@gmail.com">Email</a>
+      <a href="https://github.com/Jarvis-coder-cloud/" class="btn btn-ghost" style="border-radius: 980px; padding: 10px 20px;">GitHub</a>
+      <a href="https://www.instagram.com/aashu_prajapati1/" class="btn btn-ghost" style="border-radius: 980px; padding: 10px 20px;">Instagram</a>
+      <a href="https://www.linkedin.com/in/aashu-prajapati-/" class="btn btn-ghost" style="border-radius: 980px; padding: 10px 20px;">LinkedIn</a>
+      <a href="mailto:aashuprajapati537@gmail.com" class="btn btn-fill" style="border-radius: 980px; padding: 10px 20px;">Email</a>
     </div>
   </div>
 </section>
 
-<footer>© 2026 Aashu Prajapati</footer>
+<footer style="color: var(--text-3); padding: 4rem 0 2rem; border-top: 1px solid var(--border);">© 2026 Aashu Prajapati</footer>
 
 <script>
-  // 1. SCROLL PROGRESS BAR
+  // 1. PROJECT SLIDER LOGIC
+  const slider = document.getElementById('project-slider');
+  function slide(direction) {
+    const scrollAmount = 344; // card width (320) + gap (24)
+    if (direction === 'next') {
+      slider.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    } else {
+      slider.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    }
+  }
+
+  // 2. SCROLL PROGRESS BAR
   const progressBar = document.getElementById('scroll-progress');
   window.addEventListener('scroll', () => {
     const scrollTop = document.documentElement.scrollTop;
