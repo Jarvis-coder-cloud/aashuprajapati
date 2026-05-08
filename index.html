@@ -1248,17 +1248,38 @@
   addLogLine();
 
   // 4. TYPEWRITER EFFECT
-  const typewriterElement = document.getElementById('typewriter-text');
-  const textToType = "Aashu Prajapati — AI Builder";
-  let cIndex = 0;
-  function type() {
-    if (typewriterElement && cIndex < textToType.length) {
-      typewriterElement.textContent += textToType.charAt(cIndex);
-      cIndex++;
-      setTimeout(type, 100);
+  const typeEl = document.getElementById('typewriter-text');
+  const lines = ['Building things\nworth remembering.', 'Building AI that\nactually works.', 'Building tools\nbuilders use.'];
+  let lineIndex = 0, charIndex = 0, deleting = false;
+
+  function typeWriter() {
+    if (!typeEl) return;
+    const currentLine = lines[lineIndex];
+    
+    if (!deleting) {
+      charIndex++;
+      const displayed = currentLine.substring(0, charIndex);
+      const parts = displayed.split('\n');
+      typeEl.innerHTML = parts.length > 1 ? parts[0] + '<br><em>' + parts[1] + '</em>' : parts[0];
+      
+      if (charIndex === currentLine.length) {
+        setTimeout(() => { deleting = true; typeWriter(); }, 2000);
+        return;
+      }
+    } else {
+      charIndex--;
+      const displayed = currentLine.substring(0, charIndex);
+      const parts = displayed.split('\n');
+      typeEl.innerHTML = parts.length > 1 ? parts[0] + '<br><em>' + parts[1] + '</em>' : parts[0];
+      
+      if (charIndex === 0) {
+        deleting = false;
+        lineIndex = (lineIndex + 1) % lines.length;
+      }
     }
+    setTimeout(typeWriter, deleting ? 50 : 100);
   }
-  type();
+  typeWriter();
 </script>
 </body>
 </html>
