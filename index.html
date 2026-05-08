@@ -11,30 +11,10 @@
   <script defer src="/_vercel/insights/script.js"></script>
 
   <title>Aashu Prajapati — AI Builder & Founder</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    /* SCROLL PROGRESS BAR */
-    #scroll-progress {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 3px;
-      width: 0%;
-      background: linear-gradient(90deg, #0071e3, #34c759, #0071e3);
-      background-size: 200% 100%;
-      z-index: 9999;
-      transition: width 0.05s linear;
-      animation: progressShimmer 2s linear infinite;
-    }
-    @keyframes progressShimmer {
-      0% { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
-    }
-
+    
     :root {
       --bg: #000000;
       --surface: #0a0a0a;
@@ -42,17 +22,78 @@
       --text-2: #86868b;
       --text-3: #424245;
       --accent: #0071e3;
-      --border: rgba(255,255,255,0.1);
-      --radius: 20px;
+      --accent-glow: rgba(0, 113, 227, 0.4);
+      --border: rgba(255,255,255,0.08);
+      --radius: 12px;
+      --font-tech: 'Space Grotesk', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
     }
 
     body {
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--font-tech);
       background: var(--bg);
-      background-image: radial-gradient(circle at 50% -20%, #1a1a1a 0%, #000000 100%);
-      background-attachment: fixed;
       color: var(--text);
+      overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
+    }
+
+    /* GRID BACKGROUND */
+    .grid-bg {
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 50px 50px;
+      z-index: -1;
+      mask-image: radial-gradient(circle at center, black, transparent 80%);
+      pointer-events: none;
+      animation: gridMove 20s linear infinite;
+    }
+    @keyframes gridMove {
+      0% { background-position: 0 0; }
+      100% { background-position: 50px 50px; }
+    }
+
+    /* TERMINAL / LOG */
+    .agent-log {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      width: 300px;
+      height: 120px;
+      background: rgba(0,0,0,0.8);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--accent);
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+      z-index: 50;
+      display: flex;
+      flex-direction: column-reverse;
+      box-shadow: 0 0 20px rgba(0, 113, 227, 0.1);
+    }
+    .log-line {
+      opacity: 0;
+      animation: logFade 0.3s forwards;
+      margin-bottom: 4px;
+      white-space: nowrap;
+    }
+    @keyframes logFade { to { opacity: 0.7; } }
+
+    /* SCANLINES */
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+      background-size: 100% 3px, 3px 100%;
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.1;
     }
 
     nav {
@@ -109,22 +150,25 @@
     }
 
     .hero-eyebrow {
-      font-size: 13px;
+      font-family: var(--font-mono);
+      font-size: 11px;
       font-weight: 500;
       color: var(--accent);
-      letter-spacing: 0.5px;
+      letter-spacing: 1px;
       margin-bottom: 1.5rem;
       text-transform: uppercase;
+      opacity: 0.8;
     }
 
     .hero h1 {
-      font-family: 'DM Serif Display', serif;
+      font-family: var(--font-tech);
       font-size: clamp(48px, 6vw, 72px);
-      font-weight: 400;
+      font-weight: 700;
       line-height: 1.05;
       letter-spacing: -2px;
       color: var(--text);
       margin-bottom: 1.5rem;
+      text-transform: uppercase;
     }
 
     .hero h1 em {
@@ -853,7 +897,8 @@
   </style>
 </head>
 <body>
-
+<div class="grid-bg"></div>
+<div class="agent-log" id="agent-log"></div>
 <div class="bg-glow"></div>
 <nav>
   <span class="nav-logo">Aashu Prajapati</span>
@@ -1211,6 +1256,44 @@
   };
   const revealObserver = new IntersectionObserver(revealCallback, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
   revealElements.forEach(el => revealObserver.observe(el));
+  // 3. AGENTIC LOG LOGIC
+  const logContainer = document.getElementById('agent-log');
+  const logMessages = [
+    "[CORE]: Initializing neural weights...",
+    "[TASKS]: Analyzing codebase structure...",
+    "[MEMORY]: Accessing vector database...",
+    "[STATUS]: 10x developer mode active.",
+    "[NETWORK]: Establishing secure bridge...",
+    "[AGENT]: Monitoring user intent...",
+    "[SYNC]: Synchronizing with cloud...",
+    "[AUTH]: Biometric verification success."
+  ];
+  let logIndex = 0;
+  function addLogLine() {
+    const line = document.createElement('div');
+    line.className = 'log-line';
+    line.textContent = logMessages[logIndex];
+    logContainer.prepend(line);
+    logIndex = (logIndex + 1) % logMessages.length;
+    if (logContainer.children.length > 5) {
+      logContainer.removeChild(logContainer.lastChild);
+    }
+  }
+  setInterval(addLogLine, 2000);
+  addLogLine();
+
+  // 4. TYPEWRITER EFFECT
+  const typewriterElement = document.getElementById('typewriter-text');
+  const textToType = "Aashu Prajapati — AI Builder";
+  let charIndex = 0;
+  function type() {
+    if (charIndex < textToType.length) {
+      typewriterElement.textContent += textToType.charAt(charIndex);
+      charIndex++;
+      setTimeout(type, 100);
+    }
+  }
+  type();
 </script>
 </body>
 </html>
