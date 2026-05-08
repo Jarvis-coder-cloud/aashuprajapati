@@ -458,7 +458,8 @@
     }
 
     .contact-card {
-      background: var(--text);
+      background: var(--surface);
+      border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 4rem 3rem;
       text-align: center;
@@ -530,8 +531,8 @@
     }
 
     .reveal {
-      opacity: 0;
-      transform: translateY(40px);
+      opacity: 1;
+      transform: translateY(0);
       transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .reveal.active {
@@ -1189,44 +1190,7 @@
     progressBar.style.width = (scrollTop / scrollHeight * 100) + '%';
   });
 
-  // 2. TYPEWRITER EFFECT
-  const lines = ['Building things\nworth remembering.', 'Building AI that\nactually works.', 'Building tools\nbuilders use.'];
-  let lineIndex = 0, charIndex = 0, deleting = false;
-  const typeEl = document.getElementById('typewriter-text');
-
-  function formatLine(text) {
-    const parts = text.split('\n');
-    if (parts.length === 1) return parts[0];
-    return parts[0] + '<br><em>' + parts[1] + '</em>';
-  }
-
-  function typeWriter() {
-    const currentLine = lines[lineIndex];
-    const plainText = currentLine.replace('\n', ' ');
-    if (!deleting) {
-      charIndex++;
-      const displayed = currentLine.substring(0, charIndex);
-      const parts = displayed.split('\n');
-      typeEl.innerHTML = parts.length > 1 ? parts[0] + '<br><em>' + parts[1] + '</em>' : parts[0];
-      if (charIndex === currentLine.length) {
-        setTimeout(() => { deleting = true; typeWriter(); }, 2400);
-        return;
-      }
-    } else {
-      charIndex--;
-      const displayed = currentLine.substring(0, charIndex);
-      const parts = displayed.split('\n');
-      typeEl.innerHTML = parts.length > 1 ? parts[0] + '<br><em>' + parts[1] + '</em>' : parts[0];
-      if (charIndex === 0) {
-        deleting = false;
-        lineIndex = (lineIndex + 1) % lines.length;
-      }
-    }
-    setTimeout(typeWriter, deleting ? 40 : 70);
-  }
-  setTimeout(typeWriter, 600);
-
-  // 3. 3D TILT EFFECT ON PHOTO
+  // 2. TILT EFFECT ON PHOTO
   const tiltWrap = document.getElementById('tilt-wrap');
   const tiltImg = document.getElementById('tilt-img');
   if (tiltWrap && tiltImg) {
@@ -1270,6 +1234,7 @@
   ];
   let logIndex = 0;
   function addLogLine() {
+    if (!logContainer) return;
     const line = document.createElement('div');
     line.className = 'log-line';
     line.textContent = logMessages[logIndex];
@@ -1285,11 +1250,11 @@
   // 4. TYPEWRITER EFFECT
   const typewriterElement = document.getElementById('typewriter-text');
   const textToType = "Aashu Prajapati — AI Builder";
-  let charIndex = 0;
+  let cIndex = 0;
   function type() {
-    if (charIndex < textToType.length) {
-      typewriterElement.textContent += textToType.charAt(charIndex);
-      charIndex++;
+    if (typewriterElement && cIndex < textToType.length) {
+      typewriterElement.textContent += textToType.charAt(cIndex);
+      cIndex++;
       setTimeout(type, 100);
     }
   }
